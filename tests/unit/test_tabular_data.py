@@ -203,3 +203,10 @@ def test_dropna(axis, expected):
     td.dropna(axis)
 
     assert list(td) == expected
+
+
+def test_dropna_invalid_axis():
+    td = TabularData(["col-1", "col-2", "col-3"])
+
+    with pytest.raises(ValueError, match="Invalid 'axis' value foo."):
+        td.dropna("foo")
