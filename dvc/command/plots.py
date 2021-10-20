@@ -69,7 +69,7 @@ class CmdPlots(CmdBase):
             if self.args.open:
                 import webbrowser
 
-                opened = webbrowser.open(index_path)
+                opened = webbrowser.open(url)
                 if not opened:
                     ui.error_write(
                         "Failed to open. Please try opening it manually."
