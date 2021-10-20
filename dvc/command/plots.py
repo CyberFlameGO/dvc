@@ -71,7 +71,7 @@ class CmdPlots(CmdBase):
                 from platform import uname
 
                 if "Microsoft" in uname().release:
-                    url = index_path
+                    url = rel
 
                 opened = webbrowser.open(url)
                 if not opened:
