@@ -161,7 +161,7 @@ def test_plots_diff_open_WSL(tmp_dir, dvc, mocker, plots_data):
     mocked_uname_result = mocker.MagicMock()
     mocked_uname_result.release = "Microsoft"
     mocker.patch("platform.uname", return_value=mocked_uname_result)
-    
+
     cli_args = parse_args(
         ["plots", "diff", "--targets", "plots.csv", "--open"]
     )
@@ -172,8 +172,7 @@ def test_plots_diff_open_WSL(tmp_dir, dvc, mocker, plots_data):
     mocker.patch("dvc.command.plots.render", return_value=index_path)
 
     assert cmd.run() == 0
-    mocked_open.assert_called_once_with(
-        Path("dvc_plots") / "index.html")
+    mocked_open.assert_called_once_with(Path("dvc_plots") / "index.html")
 
 
 def test_plots_diff_open_failed(tmp_dir, dvc, mocker, capsys, plots_data):
