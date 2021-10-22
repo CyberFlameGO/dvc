@@ -252,26 +252,3 @@ def test_should_call_render(tmp_dir, mocker, capsys, plots_data, output):
     render_mock.assert_called_once_with(
         cmd.repo, plots_data, path=tmp_dir / output, html_template_path=None
     )
-
-
-def test_wsl_open(tmp_dir, mocker, capsys, plots_data, output):
-    cli_args = parse_args(
-        ["plots", "diff", "--targets", "plots.csv", "--out", output]
-    )
-    cmd = cli_args.func(cli_args)
-    mocker.patch("dvc.repo.plots.diff.diff", return_value=plots_data)
-
-    output = output or "dvc_plots"
-    index_path = tmp_dir / output / "index.html"
-    render_mock = mocker.patch(
-        "dvc.command.plots.render", return_value=index_path
-    )
-
-    assert cmd.run() == 0
-
-    out, _ = capsys.readouterr()
-    assert index_path.as_uri() in out
-
-    render_mock.assert_called_once_with(
-        cmd.repo, plots_data, path=tmp_dir / output, html_template_path=None
-    )
