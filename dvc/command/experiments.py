@@ -540,7 +540,7 @@ class CmdExperimentsShow(CmdBase):
                 pager=not self.args.no_pager,
                 csv=self.args.csv,
                 markdown=self.args.markdown,
-                only_changed=self.args.only_changed
+                only_changed=self.args.only_changed,
             )
         return 0
 
@@ -1013,7 +1013,7 @@ def add_parser(subparsers, parent_parser):
         "--only-changed",
         action="store_true",
         default=False,
-        help="Only show metrics/params whose values changed across experiments.",
+        help="Only show metrics/params with changed values.",
     )
     experiments_show_parser.set_defaults(func=CmdExperimentsShow)
 

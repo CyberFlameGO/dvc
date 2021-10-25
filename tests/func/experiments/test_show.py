@@ -557,9 +557,7 @@ def test_show_only_changed(tmp_dir, dvc, scm, capsys):
     scm.add(["dvc.yaml", "dvc.lock", "copy.py", "params.yaml", "metrics.json"])
     scm.commit("init")
 
-    dvc.experiments.run(
-        stage.addressing, params=["foo=2"], tmp_dir=True
-    )
+    dvc.experiments.run(stage.addressing, params=["foo=2"], tmp_dir=True)
 
     capsys.readouterr()
     assert main(["exp", "show"]) == 0

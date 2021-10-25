@@ -187,12 +187,12 @@ class TabularData(MutableSequence[Sequence["CellT"]]):
                 f"Invalid 'axis' value {axis}."
                 "Choose one of ['rows', 'cols']"
             )
-        
+
         if axis == "cols":
             to_drop = []
             for n_col, col in enumerate(self.columns):
                 # Cast to str because Text is not hashable error
-                unique_vals = set(str(x) for x in col if x != self._fill_value)
+                unique_vals = {str(x) for x in col if x != self._fill_value}
                 if len(unique_vals) == 1:
                     to_drop.append(self.keys()[n_col])
             self.drop(*to_drop)

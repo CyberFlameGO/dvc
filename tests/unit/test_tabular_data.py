@@ -187,7 +187,7 @@ def test_row_from_dict():
             [
                 ["foo", "", ""],
                 ["foo", "foo", ""],
-                ["foo", "bar", "foobar"],            
+                ["foo", "bar", "foobar"],
             ],
         ),
         ("cols", [[""], ["foo"], ["foo"], ["bar"]]),
@@ -195,18 +195,16 @@ def test_row_from_dict():
 )
 def test_drop_duplicates(axis, expected):
     td = TabularData(["col-1", "col-2", "col-3"])
-    td.extend([
-        ["foo"], 
-        ["foo", "foo"], 
-        ["foo", "foo"], 
-        ["foo", "bar", "foobar"]])
+    td.extend(
+        [["foo"], ["foo", "foo"], ["foo", "foo"], ["foo", "bar", "foobar"]]
+    )
 
     assert list(td) == [
         ["foo", "", ""],
         ["foo", "foo", ""],
         ["foo", "foo", ""],
         ["foo", "bar", "foobar"],
-    ]   
+    ]
 
     td.drop_duplicates(axis)
 
