@@ -189,7 +189,7 @@ class TabularData(MutableSequence[Sequence["CellT"]]):
             )
 
         if axis == "cols":
-            to_drop = []
+            to_drop: List[str] = []
             for n_col, col in enumerate(self.columns):
                 # Cast to str because Text is not hashable error
                 unique_vals = {str(x) for x in col if x != self._fill_value}
@@ -199,7 +199,7 @@ class TabularData(MutableSequence[Sequence["CellT"]]):
 
         elif axis == "rows":
             unique_rows = []
-            to_drop = []
+            to_drop: List[int] = []
             for n_row, row in enumerate(self):
                 tuple_row = tuple(row)
                 if tuple_row in unique_rows:
