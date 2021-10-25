@@ -209,3 +209,10 @@ def test_drop_duplicates(axis, expected):
     td.drop_duplicates(axis)
 
     assert list(td) == expected
+
+
+def test_drop_duplicates_invalid_axis():
+    td = TabularData(["col-1", "col-2", "col-3"])
+
+    with pytest.raises(ValueError, match="Invalid 'axis' value foo."):
+        td.drop_duplicates("foo")
