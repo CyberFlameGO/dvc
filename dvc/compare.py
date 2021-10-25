@@ -181,6 +181,41 @@ class TabularData(MutableSequence[Sequence["CellT"]]):
             {k: self._columns[k][i] for k in keys} for i in range(len(self))
         ]
 
+    def drop_duplicates(self, axis: str):
+        if axis not in ["rows", "cols"]:
+            raise ValueError(
+                f"Invalid 'axis' value {axis}."
+                "Choose one of ['rows', 'cols']"
+            )
+        
+        if axis == "cols":
+            to_drop = []
+            for n_col, col in enumerate(self.columns):
+                # Cast to str because Text is not hashable error
+                unique_vals = set(str(x) for x in col if x != self._fill_value)
+                if len(unique_vals) == 1:
+                    to_drop.append(self.keys()[n_col])
+            self.drop(*to_drop)
+
+        elif axis == "rows":
+            unique_rows = []
+            to_drop = []
+            for n_row, row in enumerate(self):
+                tuple_row = tuple(row)
+                if tuple_row in unique_rows:
+                    to_drop.append(n_row)
+                else:
+                    unique_rows.append(tuple_row)
+
+            for name in self.keys():
+                self._columns[name] = Column(
+                    [
+                        x
+                        for n, x in enumerate(self._columns[name])
+                        if n not in to_drop
+                    ]
+                )
+
 
 def _normalize_float(val: float, precision: int):
     return f"{val:.{precision}g}"

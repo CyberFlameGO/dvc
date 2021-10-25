@@ -177,3 +177,37 @@ def test_row_from_dict():
         ["", "", "value3", "value4", "", ""],
         ["", "", "value3", "", "value5", "value6"],
     ]
+
+
+@pytest.mark.parametrize(
+    "axis,expected",
+    [
+        (
+            "rows",
+            [
+                ["foo", "", ""],
+                ["foo", "foo", ""],
+                ["foo", "bar", "foobar"],            
+            ],
+        ),
+        ("cols", [[""], ["foo"], ["foo"], ["bar"]]),
+    ],
+)
+def test_drop_duplicates(axis, expected):
+    td = TabularData(["col-1", "col-2", "col-3"])
+    td.extend([
+        ["foo"], 
+        ["foo", "foo"], 
+        ["foo", "foo"], 
+        ["foo", "bar", "foobar"]])
+
+    assert list(td) == [
+        ["foo", "", ""],
+        ["foo", "foo", ""],
+        ["foo", "foo", ""],
+        ["foo", "bar", "foobar"],
+    ]   
+
+    td.drop_duplicates(axis)
+
+    assert list(td) == expected
