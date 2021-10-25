@@ -188,22 +188,22 @@ class TabularData(MutableSequence[Sequence["CellT"]]):
                 "Choose one of ['rows', 'cols']"
             )
 
-        to_drop: List[Union[int, str]] = []
-
         if axis == "cols":
+            cols_to_drop: List[str] = []
             for n_col, col in enumerate(self.columns):
                 # Cast to str because Text is not hashable error
                 unique_vals = {str(x) for x in col if x != self._fill_value}
                 if len(unique_vals) == 1:
-                    to_drop.append(self.keys()[n_col])
-            self.drop(*to_drop)
+                    cols_to_drop.append(self.keys()[n_col])
+            self.drop(*cols_to_drop)
 
         elif axis == "rows":
             unique_rows = []
+            rows_to_drop: List[int] = []
             for n_row, row in enumerate(self):
                 tuple_row = tuple(row)
                 if tuple_row in unique_rows:
-                    to_drop.append(n_row)
+                    rows_to_drop.append(n_row)
                 else:
                     unique_rows.append(tuple_row)
 
@@ -212,7 +212,7 @@ class TabularData(MutableSequence[Sequence["CellT"]]):
                     [
                         x
                         for n, x in enumerate(self._columns[name])
-                        if n not in to_drop
+                        if n not in rows_to_drop
                     ]
                 )
 
